@@ -1,3 +1,6 @@
+// Declare chart variable outside the displayChart function to keep track of the chart instance
+let myChart;
+
 function calculateSIP() {
     const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value);
     const investmentYears = parseInt(document.getElementById('investmentYears').value) || 0;
@@ -42,7 +45,14 @@ function formatCurrency(amount) {
 
 function displayChart(maturityAmount, totalInvestment) {
     const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
+    
+    // Destroy the previous chart instance if it exists
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    // Create a new chart instance
+    myChart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: ['Invested Amount', 'Returns'],
